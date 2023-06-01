@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("ReactivityContext"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,5 +31,20 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    context.Database.Migrate();
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An Error ocurred during migrations");
+}
+
 
 app.Run();
