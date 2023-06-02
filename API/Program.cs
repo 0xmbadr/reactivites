@@ -1,5 +1,8 @@
+using Application.Activities;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using MediatR;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +27,13 @@ builder.Services.AddCors(opt =>
     });
 });
 
+builder.Services.AddMediatR(typeof(List.Handler));
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
