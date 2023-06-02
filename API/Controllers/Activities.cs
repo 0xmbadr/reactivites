@@ -1,4 +1,4 @@
-
+using MediatR;
 using Application.Activities;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +19,12 @@ namespace API.Controllers
         {
             // Object Initializer Syntax 
             return await Mediator.Send(new Details.Query { Id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateActivity(Activity activity)
+        {
+            return Ok(await Mediator.Send(new Create.Command { Activity = activity }));
         }
     }
 }
