@@ -2,6 +2,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Activity } from './@types/Activity';
+import NavBar from './Components/NavBar';
+import { Container, ListItem } from 'semantic-ui-react';
+
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
@@ -18,13 +21,14 @@ export default function Home() {
   }, []);
   return (
     <main>
-      <div>
+      <NavBar />
+      <Container style={{ marginTop: '7em' }}>
         <ul>
           {activities.map((activity) => (
-            <li key={activity.id}>{activity.title}</li>
+            <ListItem key={activity.id}>{activity.title}</ListItem>
           ))}
         </ul>
-      </div>
+      </Container>
     </main>
   );
 }
