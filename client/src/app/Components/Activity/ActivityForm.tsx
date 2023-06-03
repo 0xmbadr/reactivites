@@ -1,6 +1,23 @@
+import { Activity } from '@/app/@types/Activity';
+import { useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 
-function ActivityForm() {
+interface ActivityFormProps {
+  activity: Activity | undefined;
+  closeForm: () => void;
+}
+
+function ActivityForm({ activity, closeForm }: ActivityFormProps) {
+  const [title, setTitle] = useState<string>(activity ? activity.title : '');
+  const [category, setCategory] = useState<string>(
+    activity ? activity.category : '',
+  );
+  const [date, setDate] = useState<Date>(
+    activity ? activity.dateTime : new Date(),
+  );
+  const [city, setCity] = useState<string>(activity ? activity.city : '');
+  const [venue, setVenue] = useState<string>(activity ? activity.venue : '');
+
   return (
     <Segment>
       <Form>
@@ -15,7 +32,11 @@ function ActivityForm() {
           positive
           type="submit"
           content="Submit"></Button>
-        <Button floated="right" type="button" content="Cancel"></Button>
+        <Button
+          floated="right"
+          type="button"
+          content="Cancel"
+          onClick={() => closeForm()}></Button>
       </Form>
     </Segment>
   );

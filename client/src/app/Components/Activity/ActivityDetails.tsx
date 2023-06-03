@@ -4,11 +4,13 @@ import { Button, ButtonGroup, Card, Image } from 'semantic-ui-react';
 interface ActivityDetailsProps {
   activity: Activity;
   cancelSelectActivity: () => void;
+  openForm: (id: string) => void;
 }
 
 function ActivityDetails({
   activity,
   cancelSelectActivity,
+  openForm,
 }: ActivityDetailsProps) {
   return (
     <Card fluid>
@@ -25,7 +27,11 @@ function ActivityDetails({
       </Card.Content>
       <Card.Content extra>
         <ButtonGroup widths="2">
-          <Button basic color="blue" content="Edit"></Button>
+          <Button
+            basic
+            color="blue"
+            content="Edit"
+            onClick={() => openForm(activity.id)}></Button>
           <Button
             basic
             color="grey"

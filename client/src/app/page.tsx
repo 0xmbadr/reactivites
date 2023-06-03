@@ -11,6 +11,7 @@ export default function Home() {
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined
   >(undefined);
+  const [editMode, setEditMode] = useState<Boolean>(false);
 
   const handleSelectActivity = (id: string) => {
     setSelectedActivity(activities.find((activity) => activity.id === id));
@@ -18,6 +19,16 @@ export default function Home() {
 
   const handleCancelSelectActivity = () => {
     setSelectedActivity(undefined);
+    setEditMode(false);
+  };
+
+  const handleOpenActivityForm = (id?: string) => {
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
+    setEditMode(true);
+  };
+
+  const handleCloseActivityForm = () => {
+    setEditMode(false);
   };
 
   useEffect(() => {
@@ -31,15 +42,19 @@ export default function Home() {
         console.log(err);
       });
   }, []);
+
   return (
     <main>
-      <NavBar />
+      <NavBar handleOpenActivityForm={handleOpenActivityForm} />
       <Container style={{ marginTop: '7em' }}>
         <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
           selectSelectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity}></ActivityDashboard>
+          cancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleOpenActivityForm}
+          closeForm={handleCloseActivityForm}></ActivityDashboard>
       </Container>
     </main>
   );
