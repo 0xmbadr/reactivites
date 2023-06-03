@@ -22,7 +22,7 @@ function NavBar({ handleOpenActivityForm }: NavBarProps) {
           <Button
             positive
             content="Create activity"
-            onClick={() => handleOpenActivityForm}></Button>
+            onClick={() => handleOpenActivityForm()}></Button>
         </Menu.Item>
       </Container>
     </Menu>
