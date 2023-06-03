@@ -1,15 +1,16 @@
 'use client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Activity } from './@types/Activity';
 export default function Home() {
-  const [activities, setactivities] = useState([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5253/activities')
+      .get<Activity[]>('http://localhost:5253/activities')
       .then((res) => {
         console.log(res.data);
-        setactivities(res.data);
+        setActivities(res.data);
       })
       .catch((err) => {
         console.log(err);
