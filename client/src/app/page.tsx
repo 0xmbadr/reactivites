@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Activity } from './@types/Activity';
 import NavBar from './Components/NavBar';
 import { Container, ListItem } from 'semantic-ui-react';
+import ActivityDashboard from './Components/Activity/ActivityDashboard';
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -23,11 +24,7 @@ export default function Home() {
     <main>
       <NavBar />
       <Container style={{ marginTop: '7em' }}>
-        <ul>
-          {activities.map((activity) => (
-            <ListItem key={activity.id}>{activity.title}</ListItem>
-          ))}
-        </ul>
+        <ActivityDashboard activities={activities}></ActivityDashboard>
       </Container>
     </main>
   );
