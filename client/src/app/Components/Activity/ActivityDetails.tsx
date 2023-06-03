@@ -3,9 +3,13 @@ import { Button, ButtonGroup, Card, Image } from 'semantic-ui-react';
 
 interface ActivityDetailsProps {
   activity: Activity;
+  cancelSelectActivity: () => void;
 }
 
-function ActivityDetails({ activity }: ActivityDetailsProps) {
+function ActivityDetails({
+  activity,
+  cancelSelectActivity,
+}: ActivityDetailsProps) {
   return (
     <Card fluid>
       <Image
@@ -22,7 +26,11 @@ function ActivityDetails({ activity }: ActivityDetailsProps) {
       <Card.Content extra>
         <ButtonGroup widths="2">
           <Button basic color="blue" content="Edit"></Button>
-          <Button basic color="grey" content="Cancel"></Button>
+          <Button
+            basic
+            color="grey"
+            content="Cancel"
+            onClick={() => cancelSelectActivity()}></Button>
         </ButtonGroup>
       </Card.Content>
     </Card>

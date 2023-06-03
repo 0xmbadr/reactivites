@@ -6,16 +6,28 @@ import ActivityForm from './ActivityForm';
 
 interface ActivityDashboardProps {
   activities: Activity[];
+  selectedActivity: Activity | undefined;
+  selectSelectActivity: (id: string) => void;
+  cancelSelectActivity: () => void;
 }
-function ActivityDashboard({ activities }: ActivityDashboardProps) {
+function ActivityDashboard({
+  activities,
+  cancelSelectActivity,
+  selectSelectActivity,
+  selectedActivity,
+}: ActivityDashboardProps) {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <ActivityList activities={activities}></ActivityList>
+        <ActivityList
+          activities={activities}
+          selectSelectActivity={selectSelectActivity}></ActivityList>
       </Grid.Column>
       <Grid.Column width={6}>
-        {activities.length ? (
-          <ActivityDetails activity={activities[0]}></ActivityDetails>
+        {selectedActivity ? (
+          <ActivityDetails
+            activity={selectedActivity}
+            cancelSelectActivity={cancelSelectActivity}></ActivityDetails>
         ) : (
           ``
         )}
