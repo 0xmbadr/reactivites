@@ -12,6 +12,7 @@ interface ActivityDashboardProps {
   editMode: Boolean;
   openForm: (id: string) => void;
   closeForm: () => void;
+  createOrEdit: (activity: Activity) => void;
 }
 function ActivityDashboard({
   activities,
@@ -21,6 +22,7 @@ function ActivityDashboard({
   editMode,
   closeForm,
   openForm,
+  createOrEdit,
 }: ActivityDashboardProps) {
   return (
     <Grid>
@@ -41,7 +43,8 @@ function ActivityDashboard({
         {editMode && (
           <ActivityForm
             closeForm={closeForm}
-            activity={selectedActivity}></ActivityForm>
+            activity={selectedActivity}
+            createOrEdit={createOrEdit}></ActivityForm>
         )}
       </Grid.Column>
     </Grid>
