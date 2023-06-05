@@ -1,11 +1,12 @@
 'use client';
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import { Activity } from './@types/Activity';
 import NavBar from './Components/NavBar';
 import { Container } from 'semantic-ui-react';
 import ActivityDashboard from './Components/Activity/ActivityDashboard';
 import { v4 as uuid } from 'uuid';
+import agent from '@/api/agent';
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -49,15 +50,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    axios
-      .get<Activity[]>('http://localhost:5253/activities')
-      .then((res) => {
-        console.log(res.data);
-        setActivities(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    agent.Activities.list().then((res) => {
+      res.forEach((activity) => {
+        activity.dateTime = activity.dateTime.split('T')[0];
       });
+      setActivities(res);
+    });
   }, []);
 
   return (

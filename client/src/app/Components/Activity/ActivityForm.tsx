@@ -18,7 +18,7 @@ function ActivityForm({
     title: '',
     description: '',
     category: '',
-    dateTime: new Date(),
+    dateTime: '',
     city: '',
     venue: '',
   };
@@ -57,6 +57,7 @@ function ActivityForm({
           name="category"
           onChange={handleInputChange}></Form.Input>
         <Form.Input
+          type="date"
           placeholder="Date"
           value={activity.dateTime}
           name="dateTime"
