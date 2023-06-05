@@ -13,6 +13,7 @@ interface ActivityDashboardProps {
   openForm: (id: string) => void;
   closeForm: () => void;
   createOrEdit: (activity: Activity) => void;
+  deleteActivity: (id: string) => void;
 }
 function ActivityDashboard({
   activities,
@@ -23,13 +24,15 @@ function ActivityDashboard({
   closeForm,
   openForm,
   createOrEdit,
+  deleteActivity,
 }: ActivityDashboardProps) {
   return (
     <Grid>
       <Grid.Column width={10}>
         <ActivityList
           activities={activities}
-          selectSelectActivity={selectSelectActivity}></ActivityList>
+          selectSelectActivity={selectSelectActivity}
+          deleteActivity={deleteActivity}></ActivityList>
       </Grid.Column>
       <Grid.Column width={6}>
         {selectedActivity && !editMode ? (

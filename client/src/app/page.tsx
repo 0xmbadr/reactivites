@@ -44,6 +44,10 @@ export default function Home() {
     setSelectedActivity(activity);
   };
 
+  const handleDeleteActivity = (id: string) => {
+    setActivities([...activities.filter((a) => a.id !== id)]);
+  };
+
   useEffect(() => {
     axios
       .get<Activity[]>('http://localhost:5253/activities')
@@ -68,7 +72,8 @@ export default function Home() {
           editMode={editMode}
           openForm={handleOpenActivityForm}
           closeForm={handleCloseActivityForm}
-          createOrEdit={handleEditOrCreateActivity}></ActivityDashboard>
+          createOrEdit={handleEditOrCreateActivity}
+          deleteActivity={handleDeleteActivity}></ActivityDashboard>
       </Container>
     </main>
   );

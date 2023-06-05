@@ -4,9 +4,14 @@ import { Button, Item, Label, Segment } from 'semantic-ui-react';
 interface ActivityListProps {
   activities: Activity[];
   selectSelectActivity: (id: string) => void;
+  deleteActivity: (id: string) => void;
 }
 
-function ActivityList({ activities, selectSelectActivity }: ActivityListProps) {
+function ActivityList({
+  activities,
+  selectSelectActivity,
+  deleteActivity,
+}: ActivityListProps) {
   return (
     <Segment>
       <Item.Group divided>
@@ -28,6 +33,12 @@ function ActivityList({ activities, selectSelectActivity }: ActivityListProps) {
                   color="blue"
                   onClick={() => selectSelectActivity(activity.id)}></Button>
                 <Label basic content={activity.category}></Label>
+
+                <Button
+                  onClick={() => deleteActivity(activity.id)}
+                  floated="right"
+                  content="Delete"
+                  color="red"></Button>
               </Item.Extra>
             </Item.Content>
           </Item>
