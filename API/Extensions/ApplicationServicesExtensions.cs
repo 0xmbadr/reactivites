@@ -1,8 +1,14 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static IServiceCollection AddAppplicationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAppplicationServices(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
@@ -14,15 +20,24 @@ namespace API.Extensions
 
             services.AddCors(opt =>
             {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-                });
+                opt.AddPolicy(
+                    "CorsPolicy",
+                    policy =>
+                    {
+                        policy
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithOrigins("http://localhost:3000");
+                    }
+                );
             });
 
             services.AddMediatR(typeof(List.Handler));
 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<Create>();
 
             return services;
         }
