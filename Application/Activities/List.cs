@@ -1,5 +1,6 @@
 using Application.Core;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -27,13 +28,10 @@ namespace Application.Activities
             )
             {
                 var activities = await _context.Activities
-                    .Include(a => a.Attendees)
-                    .ThenInclude(aa => aa.AppUser)
+                    .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                var activitiesToReturn = _mapper.Map<List<ActivityDto>>(activities);
-
-                return Result<List<ActivityDto>>.Success(activitiesToReturn);
+                return Result<List<ActivityDto>>.Success(activities);
             }
         }
     }
