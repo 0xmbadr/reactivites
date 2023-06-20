@@ -11,7 +11,6 @@
     
     <Using Include="Persistence" />
     <Using Include="MediatR" />
-    <Using Include="AutoMapper" />
   </ItemGroup>
 
   <PropertyGroup>
