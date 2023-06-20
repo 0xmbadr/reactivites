@@ -51,6 +51,8 @@ namespace Application.Activities
                     IsHost = true
                 };
 
+                request.Activity.Attendees.Add(attendee);
+
                 // Add the req's activity to the activity table.
                 _context.Activities.Add(request.Activity);
 

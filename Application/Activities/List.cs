@@ -23,7 +23,12 @@ namespace Application.Activities
                 CancellationToken cancellationToken
             )
             {
-                return Result<List<Activity>>.Success(await _context.Activities.ToListAsync());
+                var activities = await _context.Activities
+                    .Include(a => a.Attendees)
+                    .ThenInclude(aa => aa.AppUser)
+                    .ToListAsync(cancellationToken);
+
+                return Result<List<Activity>>.Success(activities);
             }
         }
     }
