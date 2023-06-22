@@ -18,5 +18,11 @@ namespace API.Controllers
                 await Mediator.Send(new Application.Photos.Delete.Command { Id = id })
             );
         }
+
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMain(string id)
+        {
+            return HandleResult(await Mediator.Send(new SetMain.Command { Id = id }));
+        }
     }
 }
