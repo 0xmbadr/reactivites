@@ -1,19 +1,17 @@
 using Application.Core;
 using Application.Interfaces;
-using Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Photos
 {
-    public class Add
+    public class Delete
     {
-        public class Command : IRequest<Result<Photo>>
+        public class Command : IRequest<Result<Unit>>
         {
-            public IFormFile File { get; set; }
+            public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<Photo>>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IPhotoAccessor _photoAcessor;
@@ -30,7 +28,7 @@ namespace Application.Photos
                 _context = context;
             }
 
-            public async Task<Result<Photo>> Handle(
+            public async Task<Result<Unit>> Handle(
                 Command request,
                 CancellationToken cancellationToken
             )
@@ -39,28 +37,27 @@ namespace Application.Photos
                     .Include(u => u.Photos)
                     .FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUsername());
 
-                if (user == null)
+                var photo = user.Photos.FirstOrDefault(p => p.Id == request.Id);
+
+                if (photo == null)
                     return null;
 
-                var photoUploadResult = await _photoAcessor.AddPhoto(request.File);
+                if (photo.IsMain)
+                    return Result<Unit>.Failure("You cannot delete your main photo");
 
-                var photo = new Photo
-                {
-                    Url = photoUploadResult.Url,
-                    Id = photoUploadResult.PublicId
-                };
+                var result = await _photoAcessor.DeletePhoto(photo.Id);
 
-                if (!user.Photos.Any(p => p.IsMain))
-                    photo.IsMain = true;
+                if (result == null)
+                    return Result<Unit>.Failure("Problem deleting photo");
 
-                user.Photos.Add(photo);
+                user.Photos.Remove(photo);
 
-                var result = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync() > 0;
 
-                if (result)
-                    return Result<Photo>.Success(photo);
+                if (success)
+                    return Result<Unit>.Success(Unit.Value);
 
-                return Result<Photo>.Failure("Problem adding photo");
+                return Result<Unit>.Failure("Problem deleting photo");
             }
         }
     }
